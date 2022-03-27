@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RideRepository {
-
     Map<String, ArrayList<Ride>> userRides;
+
     public RideRepository() {
         userRides = new HashMap<>();
     }

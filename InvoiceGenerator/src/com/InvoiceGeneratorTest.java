@@ -1,7 +1,5 @@
 package com;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +27,12 @@ class InvoiceGeneratorTest {
 
     @Test
     public void givenMultipleRides_ShouldReturnInvoiceSummary(){
-        Ride[] rides = {new Ride(2, 5),
-                new Ride(.1,1)};
+
+        Ride[] rides = {
+                new Ride(RideType.NORMAL_RIDE, 2, 5),
+                new Ride(RideType.NORMAL_RIDE, .1,1)
+        };
+
         InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
         InvoiceSummary expectedSummary = new InvoiceSummary(2, 30.0);
         assertEquals(expectedSummary,summary);
@@ -39,11 +41,30 @@ class InvoiceGeneratorTest {
     @Test
     public void givenUserId_ShouldReturnInvoiceSummary() {
         String userId = "nvn11";
+
         Ride[] rides = {
-                new Ride(2.0, 5), new Ride(0.1, 1)
+                new Ride(RideType.NORMAL_RIDE, 2.0, 5),
+                new Ride(RideType.NORMAL_RIDE, 0.1, 1)
         };
+
         invoiceGenerator.addRide(userId, rides);
         InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+        assertEquals(expectedInvoiceSummary, summary);
+    }
+
+    @Test
+    public void givenTwoCategoriesOfRides_ShouldReturnTheInvoiceSummary() {
+        String userId = "nvn11";
+
+        Ride[] rides = {
+                new Ride(RideType.NORMAL_RIDE, 2.0, 5),
+                new Ride(RideType.NORMAL_RIDE, 0.1, 1),
+                new Ride(RideType.PREMIUM_RIDE, 0.1, 1)
+        };
+
+        invoiceGenerator.addRide(userId, rides);
+        InvoiceSummary summary = invoiceGenerator.getInvoiceSummary(userId);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
         assertEquals(expectedInvoiceSummary, summary);
     }

@@ -30,4 +30,8 @@ public class InvoiceGenerator {
     public void addRide(String userId, Ride[] rides) {
         rideRepository.addRide(userId, rides);
     }
+
+    public InvoiceSummary getInvoiceSummary(String userId) {
+        return this.calculateFare(rideRepository.getRide(userId));
+    }
 }
